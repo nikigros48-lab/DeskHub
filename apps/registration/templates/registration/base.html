@@ -1,0 +1,16 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    {% block style %}{% endblock style %}
+    <title>{% block title %}Default Title{% endblock title %}</title>
+</head>
+<body>
+    {% block header %}{% endblock header %}
+    {% block content %}{% endblock content %}
+    {% block footer %}
+        <p>&copy; 2026 DeskHub. Все права защищены.</p>
+    {% endblock footer %}
+</body>
+</html>
