@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block title %}Управление заявками{% endblock %}
+
+{% block content %}
+    <h2>Заявки на бронирование (ожидают подтверждения)</h2>
+
+    {% if reservations %}
+        <ul style="list-style: none; padding: 0;">
+        {% for res in reservations %}
+            <li style="border: 1px solid #ddd; margin-bottom: 10px; padding: 15px; border-radius: 5px;">
+                <p><strong>Пользователь:</strong> {{ res.user.get_full_name|default:res.user.username }}</p>
+                <p><strong>Коворкинг:</strong> {{ res.slot.place.coworking.name }}</p>
+                <p><strong>Место:</strong> {{ res.slot.place.get_type_display }} {{ res.slot.place.place_number }}</p>
+                <p><strong>Время:</strong> с {{ res.slot.start_datetime|date:"d.m.Y H:i" }} по {{ res.slot.end_datetime|date:"d.m.Y H:i" }}</p>
+                <p><strong>Комментарий:</strong> {{ res.comment|default:"—" }}</p>
+                <p><strong>Создана:</strong> {{ res.created_at|date:"d.m.Y H:i" }}</p>
+
+                <form method="post" action="{% url 'reservations:admin_action' res.id 'confirm' %}" style="display: inline;">
+                    {% csrf_token %}
+                    <button type="submit" style="background: green; color: white; border: none; padding: 5px 15px; border-radius: 3px;">Подтвердить</button>
+                </form>
+                <form method="post" action="{% url 'reservations:admin_action' res.id 'reject' %}" style="display: inline;">
+                    {% csrf_token %}
+                    <button type="submit" style="background: red; color: white; border: none; padding: 5px 15px; border-radius: 3px;">Отклонить</button>
+                </form>
+            </li>
+        {% endfor %}
+        </ul>
+    {% else %}
+        <p>Нет новых заявок, ожидающих подтверждения.</p>
+    {% endif %}
+{% endblock %}

@@ -1,0 +1,562 @@
+/* ============================================
+   ОСНОВНЫЕ СТИЛИ
+============================================ */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: #f4f6f9;
+    color: #333;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* ============================================
+   ШАПКА
+============================================ */
+.header {
+    background: #2c3e50;
+    color: #fff;
+    padding: 15px 0;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.header-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.logo a {
+    color: #fff;
+    font-size: 24px;
+    font-weight: bold;
+    text-decoration: none;
+    letter-spacing: 1px;
+}
+.logo a:hover {
+    color: #1abc9c;
+}
+
+/* ============================================
+   НАВИГАЦИЯ
+============================================ */
+.nav ul {
+    list-style: none;
+    display: flex;
+    gap: 25px;
+    margin: 0;
+    padding: 0;
+}
+
+.nav ul li a {
+    color: #ecf0f1;
+    text-decoration: none;
+    font-size: 16px;
+    transition: color 0.2s;
+}
+.nav ul li a:hover {
+    color: #1abc9c;
+}
+
+/* ============================================
+   БЛОК ПОЛЬЗОВАТЕЛЯ
+============================================ */
+.user-block {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.user-block .username {
+    color: #ecf0f1;
+    font-weight: 500;
+}
+
+.user-block .btn {
+    background: #1abc9c;
+    color: #fff;
+    border: none;
+    padding: 6px 14px;
+    border-radius: 4px;
+    cursor: pointer;
+    text-decoration: none;
+    font-size: 14px;
+    transition: background 0.2s;
+}
+.user-block .btn:hover {
+    background: #16a085;
+}
+
+.user-block .btn-outline {
+    background: transparent;
+    border: 1px solid #1abc9c;
+    color: #1abc9c;
+    padding: 5px 13px;
+}
+.user-block .btn-outline:hover {
+    background: #1abc9c;
+    color: #fff;
+}
+
+.user-block form {
+    display: inline;
+    margin: 0;
+}
+
+/* ============================================
+   ОСНОВНОЙ КОНТЕНТ И ФУТЕР
+============================================ */
+.main-content {
+    padding: 30px 0;
+    min-height: 70vh;
+}
+
+.footer {
+    background: #2c3e50;
+    color: #ecf0f1;
+    text-align: center;
+    padding: 20px 0;
+    margin-top: 40px;
+}
+.footer p {
+    margin: 0;
+}
+
+/* ============================================
+   АДАПТИВ (МОБИЛЬНЫЕ УСТРОЙСТВА)
+============================================ */
+@media (max-width: 768px) {
+    .header-inner {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 10px;
+    }
+
+    .nav ul {
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 15px;
+    }
+
+    .user-block {
+        justify-content: center;
+    }
+}
+
+/* ============================================
+   СПИСОК КОВОРКИНГОВ (КАРТОЧКИ)
+============================================ */
+.coworking-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 24px;
+    list-style: none !important;
+    padding: 0 !important;
+    margin: 20px 0 0 0;
+}
+
+.coworking-card {
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+    padding: 20px 22px;
+    transition: transform 0.2s, box-shadow 0.2s;
+    border: 1px solid #f0f0f0;
+    display: flex;
+    flex-direction: column;
+}
+.coworking-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.10);
+}
+
+.coworking-card h3 {
+    margin: 0 0 6px 0;
+    font-size: 1.25rem;
+    font-weight: 600;
+}
+
+.coworking-card h3 a {
+    color: #2c3e50;
+    text-decoration: none;
+    transition: color 0.2s;
+}
+.coworking-card h3 a:hover {
+    color: #1abc9c;
+}
+
+.coworking-card .address {
+    color: #7f8c8d;
+    font-size: 0.95rem;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+.coworking-card .address::before {
+    content: "📍";
+    font-size: 1rem;
+}
+
+.coworking-card .city-badge {
+    display: inline-block;
+    background: #ecf0f1;
+    padding: 4px 14px;
+    border-radius: 30px;
+    font-size: 0.85rem;
+    color: #2c3e50;
+    align-self: flex-start;
+    margin-top: auto;
+    font-weight: 500;
+}
+.coworking-card .city-badge::before {
+    content: "🏙️ ";
+    font-size: 0.9rem;
+}
+
+/* ============================================
+   ДЕТАЛЬНАЯ СТРАНИЦА КОВОРКИНГА
+============================================ */
+.detail-header {
+    background: #fff;
+    padding: 24px 30px;
+    border-radius: 12px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+    margin-bottom: 30px;
+}
+
+.detail-header h1 {
+    margin: 0 0 6px 0;
+    font-size: 2rem;
+}
+
+.detail-meta {
+    color: #7f8c8d;
+    font-size: 1rem;
+}
+.detail-meta span {
+    margin-right: 24px;
+}
+.messages {
+    margin: 20px 0;
+}
+.alert {
+    padding: 12px 20px;
+    border-radius: 6px;
+    margin-bottom: 10px;
+}
+.alert-success { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+.alert-error   { background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+.alert-warning { background: #fff3cd; color: #856404; border: 1px solid #ffeeba; }
+.alert-info    { background: #d1ecf1; color: #0c5460; border: 1px solid #bee5eb; }
+
+/* ============================================
+   ТЕГИ МЕСТ (КОВОРКИНГ → ДЕТАЛИ)
+============================================ */
+.place-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    list-style: none;
+    padding: 0;
+    margin: 0 0 20px 0;
+}
+
+.place-tag {
+    background: #ecf0f1;
+    padding: 6px 16px;
+    border-radius: 30px;
+    font-size: 0.9rem;
+    color: #2c3e50;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+.place-tag.blocked {
+    background: #f8d7da;
+    color: #721c24;
+}
+
+/* ============================================
+   ФОРМА БРОНИРОВАНИЯ
+============================================ */
+.booking-card {
+    background: #f8f9fa;
+    border-radius: 12px;
+    padding: 24px 28px;
+    margin: 20px 0 30px 0;
+    border: 1px solid #e9ecef;
+}
+
+.booking-card h3 {
+    margin-top: 0;
+    margin-bottom: 20px;
+}
+
+.booking-form .form-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 16px;
+}
+
+.booking-form label {
+    font-weight: 500;
+    min-width: 80px;
+    color: #2c3e50;
+}
+
+.booking-form select,
+.booking-form input {
+    padding: 8px 14px;
+    border-radius: 6px;
+    border: 1px solid #ced4da;
+    flex: 1 1 200px;
+    min-width: 180px;
+}
+
+.booking-form .btn-submit {
+    background: #1abc9c;
+    color: #fff;
+    border: none;
+    padding: 10px 28px;
+    border-radius: 6px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+.booking-form .btn-submit:hover {
+    background: #16a085;
+}
+
+/* ============================================
+   ЗАНЯТЫЕ СЛОТЫ
+============================================ */
+.slot-list {
+    list-style: none;
+    padding: 0;
+    margin: 10px 0;
+}
+
+.slot-item {
+    background: #fff;
+    border-left: 4px solid #e74c3c;
+    padding: 10px 16px;
+    margin-bottom: 8px;
+    border-radius: 4px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.slot-item .time {
+    font-weight: 500;
+    color: #2c3e50;
+}
+
+.slot-item .status-badge {
+    background: #f1c40f;
+    color: #2c3e50;
+    font-size: 0.7rem;
+    padding: 2px 10px;
+    border-radius: 20px;
+    text-transform: uppercase;
+    font-weight: 600;
+}
+.slot-item .status-badge.confirmed {
+    background: #e74c3c;
+    color: #fff;
+}
+.slot-item .status-badge.pending {
+    background: #f39c12;
+    color: #fff;
+}
+
+.slot-free {
+    color: #27ae60;
+    font-weight: 500;
+}
+
+/* ============================================
+   НАВИГАЦИЯ ПО ДНЯМ
+============================================ */
+.nav-days {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    margin: 15px 0 20px;
+}
+
+.nav-days a {
+    text-decoration: none;
+    color: #1abc9c;
+    font-weight: 500;
+    padding: 6px 14px;
+    border: 1px solid #1abc9c;
+    border-radius: 20px;
+    transition: 0.2s;
+}
+.nav-days a:hover {
+    background: #1abc9c;
+    color: #fff;
+}
+
+.nav-days .current-date {
+    font-weight: 500;
+    color: #2c3e50;
+}
+
+/* ============================================
+   ВКЛАДКИ (ПРОФИЛЬ)
+============================================ */
+.tabs {
+    display: flex;
+    gap: 1rem;
+    border-bottom: 2px solid #ccc;
+    padding-bottom: 0.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.tabs a {
+    text-decoration: none;
+    padding: 0.5rem 1rem;
+    border-radius: 4px 4px 0 0;
+    color: #333;
+    font-weight: bold;
+}
+.tabs a.active {
+    background: #007bff;
+    color: white;
+}
+
+.tab-content {
+    margin-top: 1rem;
+}
+
+/* ============================================
+   СПИСОК ЗАЯВОК (ПРОФИЛЬ → МОИ ЗАЯВКИ)
+============================================ */
+.reservation-list {
+    list-style: none;
+    padding: 0;
+}
+
+.reservation-item {
+    border: 1px solid #eee;
+    padding: 0.8rem;
+    margin-bottom: 0.5rem;
+    border-radius: 4px;
+}
+
+.btn-cancel {
+    background: #e74c3c;
+    color: #fff;
+    border: none;
+    padding: 4px 14px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.8rem;
+    transition: background 0.2s;
+}
+.btn-cancel:hover {
+    background: #c0392b;
+}
+
+/* ============================================
+   РЕДАКТИРОВАНИЕ ПРОФИЛЯ (ФОРМА)
+============================================ */
+.profile-card {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+    padding: 30px 35px;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.profile-card h2 {
+    margin-top: 0;
+    margin-bottom: 25px;
+    font-size: 1.6rem;
+    color: #2c3e50;
+    border-bottom: 2px solid #ecf0f1;
+    padding-bottom: 12px;
+}
+
+.profile-form .form-group {
+    margin-bottom: 18px;
+}
+
+.profile-form label {
+    display: block;
+    font-weight: 600;
+    color: #2c3e50;
+    margin-bottom: 4px;
+    font-size: 0.95rem;
+}
+
+.profile-form input[type="text"],
+.profile-form input[type="email"],
+.profile-form input[type="file"],
+.profile-form textarea,
+.profile-form select {
+    width: 100%;
+    padding: 10px 14px;
+    border: 1px solid #ced4da;
+    border-radius: 6px;
+    font-size: 1rem;
+    box-sizing: border-box;
+    transition: border-color 0.2s;
+}
+.profile-form input:focus,
+.profile-form textarea:focus {
+    border-color: #1abc9c;
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(26, 188, 156, 0.15);
+}
+
+.profile-form .help-text {
+    font-size: 0.85rem;
+    color: #7f8c8d;
+    margin-top: 4px;
+}
+
+.profile-form .btn-submit {
+    background: #1abc9c;
+    color: #fff;
+    border: none;
+    padding: 12px 28px;
+    border-radius: 6px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.2s;
+    width: 100%;
+    font-weight: 600;
+}
+.profile-form .btn-submit:hover {
+    background: #16a085;
+}
+
+.avatar-preview {
+    margin-top: 10px;
+}
+.avatar-preview img {
+    display: block;
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid #ecf0f1;
+}

@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Профиль{% endblock title %}
+
+{% block content %}
+<h2>Личный кабинет</h2>
+
+<div class="tabs">
+    <a href="?tab=reservations" class="{% if active_tab == 'reservations' %}active{% endif %}">Мои заявки</a>
+    <a href="?tab=edit" class="{% if active_tab == 'edit' %}active{% endif %}">Редактирование профиля</a>
+</div>
+
+<div class="tab-content">
+    {% if active_tab == 'edit' %}
+        <div class="profile-card">
+            <h2>Редактирование профиля</h2>
+            <form method="post" enctype="multipart/form-data" class="profile-form">
+                {% csrf_token %}
+                {% for field in form %}
+                    <div class="form-group">
+                        <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                        {{ field }}
+                        {% if field.help_text %}
+                            <div class="help-text">{{ field.help_text }}</div>
+                        {% endif %}
+                        {% if field.errors %}
+                            <div style="color: #e74c3c; font-size: 0.9rem; margin-top: 4px;">
+                                {{ field.errors }}
+                            </div>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+                {% if user.profile.avatar %}
+                    <div class="avatar-preview">
+                        <img src="{{ user.profile.avatar.url }}" alt="Текущий аватар">
+                    </div>
+                {% endif %}
+                <button type="submit" class="btn-submit">Сохранить изменения</button>
+            </form>
+            <p style="margin-top: 20px; text-align: center;">
+                <a href="{% url 'users:profile' %}?tab=reservations" style="color: #1abc9c; text-decoration: none;">← Вернуться к заявкам</a>
+            </p>
+        </div>
+    {% elif active_tab == 'reservations' %}
+        <h3>Ваши бронирования</h3>
+        {% if reservations %}
+            <ul class="reservation-list">
+                {% for res in reservations %}
+                    <li class="reservation-item">
+                        <strong>{{ res.slot.place.coworking.name }}</strong><br>
+                        Место: {{ res.slot.place.place_number }} ({{ res.slot.place.get_type_display }})<br>
+                        Дата: с {{ res.slot.start_datetime|date:"d.m.Y H:i" }} по {{ res.slot.end_datetime|date:"d.m.Y H:i" }}<br>
+                        Статус: <strong>{{ res.get_status_display }}</strong><br>
+                        {% if res.comment %}
+                            Комментарий: {{ res.comment }}
+                        {% endif %}
+                        <br><small>Создано: {{ res.created_at|date:"d.m.Y H:i" }}</small>
+                        {% if res.status == 'pending' or res.status == 'confirmed' %}
+                            {% if res.slot.start_datetime > now %}
+                                <form method="post" action="{% url 'reservations:cancel' res.id %}" style="display: inline; margin-top: 8px;">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn-cancel">Отменить</button>
+                                </form>
+                            {% endif %}
+                        {% endif %}
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>У вас пока нет бронирований.</p>
+        {% endif %}
+    {% endif %}
+</div>
+{% endblock content %}

@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block title %}Корзина{% endblock %}
+
+{% block content %}
+    <h2>Корзина</h2>
+    {% if items %}
+        <ul>
+        {% for item in items %}
+            <li>
+                <strong>{{ item.place.coworking.name }}</strong> —
+                {{ item.place.get_type_display }} {{ item.place.place_number }}<br>
+                С {{ item.start }} по {{ item.end }}<br>
+                Участников: {{ item.participants }}
+                <form method="post" action="{% url 'cart:remove' item.index %}" style="display:inline;">
+                    {% csrf_token %}
+                    <button type="submit">Удалить</button>
+                </form>
+            </li>
+        {% endfor %}
+        </ul>
+        <form method="post" action="{% url 'cart:checkout' %}">
+            {% csrf_token %}
+            <button type="submit">Оформить все бронирования</button>
+        </form>
+    {% else %}
+        <p>Корзина пуста.</p>
+    {% endif %}
+    <p><a href="{% url 'coworkings:list' %}">Вернуться к поиску</a></p>
+{% endblock %}

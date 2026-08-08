@@ -29,6 +29,10 @@ INSTALLED_APPS = [
     'apps.registration',
     'apps.reservation',
     'apps.coworkings',
+    'apps.info',
+    'apps.users',
+    'apps.core',
+    'apps.cart',
 ]
 
 MIDDLEWARE = [
@@ -39,6 +43,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'apps.core.middleware.CartAndLoggingMiddleware',
 ]
 
 ROOT_URLCONF = 'deskhub.urls'
@@ -46,13 +51,14 @@ ROOT_URLCONF = 'deskhub.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'apps.info.context_processors.city_context'
             ],
         },
     },
@@ -96,6 +102,30 @@ USE_TZ = True
 
 
 STATIC_URL = 'static/'
+STATICFILES_DIRS = [
+    BASE_DIR / 'static',
+]
 
-LOGIN_REDIRECT_URL = "coworkings:coworking_list"
-LOGOUT_REDIRECT_URL = "coworkings:coworking_list"
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'
+
+LOGIN_URL = "auth:login"
+LOGOUT_URL = "auth:logout"
+
+LOGIN_REDIRECT_URL = "users:profile"
+LOGOUT_REDIRECT_URL = "coworkings:list"
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+        },
+    },
+    'root': {
+        'handlers': ['console'],
+        'level': 'INFO',
+    },
+}

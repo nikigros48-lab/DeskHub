@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Редактирование профиля{% endblock title %}
+
+{% block content %}
+<div class="profile-card">
+    <h2>Редактирование профиля</h2>
+
+    <form method="post" enctype="multipart/form-data" class="profile-form">
+        {% csrf_token %}
+        {% for field in form %}
+            <div class="form-group">
+                <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                {{ field }}
+                {% if field.help_text %}
+                    <div class="help-text">{{ field.help_text }}</div>
+                {% endif %}
+                {% if field.errors %}
+                    <div style="color: #e74c3c; font-size: 0.9rem; margin-top: 4px;">
+                        {{ field.errors }}
+                    </div>
+                {% endif %}
+            </div>
+        {% endfor %}
+        {% if user.profile.avatar %}
+            <div class="avatar-preview">
+                <img src="{{ user.profile.avatar.url }}" alt="Текущий аватар">
+            </div>
+        {% endif %}
+        <button type="submit" class="btn-submit">Сохранить изменения</button>
+    </form>
+
+    <p style="margin-top: 20px; text-align: center;">
+        <a href="{% url 'users:profile' %}" style="color: #1abc9c; text-decoration: none;">← Вернуться в профиль</a>
+    </p>
+</div>
+{% endblock content %}

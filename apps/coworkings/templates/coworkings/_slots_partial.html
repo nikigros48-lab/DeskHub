@@ -1,0 +1,26 @@
+{% load custom_filters %}
+
+<h3>Занятые слоты на {{ selected_date|date:"d.m.Y" }}</h3>
+<div class="nav-days">
+    <a href="#" class="day-nav" data-date="{{ previous_date|date:"Y-m-d" }}">← Предыдущий день</a>
+    <span class="current-date">{{ selected_date|date:"d.m.Y" }}</span>
+    <a href="#" class="day-nav" data-date="{{ next_date|date:"Y-m-d" }}">Следующий день →</a>
+</div>
+
+{% for place in places %}
+    <h4>{{ place.get_type_display }} {{ place.place_number }}</h4>
+    {% with intervals=booked_slots|get_item:place.id %}
+        {% if intervals %}
+            <ul class="slot-list">
+                {% for start, end in intervals %}
+                    <li class="slot-item">
+                        <span class="time">⛔ {{ start|date:"d.m.Y H:i" }} – {{ end|date:"d.m.Y H:i" }}</span>
+                        <span class="status-badge confirmed">Занято</span>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p class="slot-free">✅ Свободно весь день</p>
+        {% endif %}
+    {% endwith %}
+{% endfor %}

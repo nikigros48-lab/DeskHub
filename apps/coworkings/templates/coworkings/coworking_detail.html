@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+{% load custom_filters %}
+
+{% block title %}{{ coworking.name }}{% endblock title %}
+
+{% block content %}
+    <div class="detail-header">
+        <h1>{{ coworking.name }}</h1>
+        <div class="detail-meta">
+            <span>🏙️ {{ coworking.city.name }}</span>
+            <span>📍 {{ coworking.address }}</span>
+        </div>
+    </div>
+
+    <h3>Доступные места</h3>
+    <ul class="place-tags">
+        {% for place in places %}
+            <li class="place-tag {% if place.is_blocked %}blocked{% endif %}">
+                {{ place.get_type_display }} {{ place.place_number }}
+                {% if place.is_blocked %}🔒{% endif %}
+            </li>
+        {% endfor %}
+    </ul>
+
+    <div class="booking-card">
+        <h3>Добавить в корзину</h3>
+        <form method="post" action="{% url 'cart:add' %}" class="booking-form">
+            {% csrf_token %}
+            <div class="form-row">
+                <label for="place">Место:</label>
+                <select name="place" id="place" required>
+                    {% for place in places %}
+                        <option value="{{ place.id }}"
+                            {% if form_data.place and place.id|stringformat:"s" == form_data.place %}selected{% endif %}>
+                            {{ place.get_type_display }} {{ place.place_number }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="form-row">
+                <label for="start">Начало:</label>
+                <input type="datetime-local" name="start_datetime" id="start" required
+                       value="{{ form_data.start|default:'' }}">
+            </div>
+
+            <div class="form-row">
+                <label for="end">Конец:</label>
+                <input type="datetime-local" name="end_datetime" id="end" required
+                       value="{{ form_data.end|default:'' }}">
+            </div>
+
+            <div class="form-row">
+                <label for="participants">Количество участников:</label>
+                <input type="number" name="participants" id="participants" min="1" value="1" required>
+            </div>
+
+            <div class="form-row" style="justify-content: flex-end;">
+                <button type="submit" class="btn-submit">Добавить в корзину</button>
+            </div>
+        </form>
+    </div>
+
+    <hr>
+
+    <div id="slots-container">
+        {% include "coworkings/_slots_partial.html" %}
+    </div>
+
+    <p style="margin-top: 30px;">
+        <a href="{% url 'coworkings:list' %}" style="color: #1abc9c; text-decoration: none;">← Назад к списку коворкингов</a>
+    </p>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const container = document.getElementById('slots-container');
+            const coworkingId = {{ coworking.id }};
+
+            container.addEventListener('click', function(e) {
+                const target = e.target.closest('.day-nav');
+                if (!target) return;
+                e.preventDefault();
+
+                const date = target.dataset.date;
+                fetch(`/coworkings/${coworkingId}/slots-partial/?date=${date}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        container.innerHTML = data.html;
+                    })
+                    .catch(error => console.error('Ошибка загрузки:', error));
+            });
+        });
+    </script>
+{% endblock content %}

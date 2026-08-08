@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block title %}Коворкинги{% endblock title %}
+
+{% block content %}
+    <div style="margin-bottom: 20px;">
+        {% if selected_city %}
+            <p style="font-size: 1.1rem;">
+                Выбран город: <strong>{{ selected_city.name }}</strong>
+                <a href="{% url "info:select_city" %}" style="margin-left: 10px;">Сменить</a>
+            </p>
+        {% else %}
+            <p><a href="{% url "info:select_city" %}">Выберите город</a></p>
+        {% endif %}
+    </div>
+
+    <form method="get" style="margin: 20px 0; display: flex; flex-wrap: wrap; gap: 15px; align-items: center;">
+        <div>
+            <label for="date">Дата:</label>
+            <input type="date" name="date" id="date" value="{{ filter_date|date:'Y-m-d' }}">
+        </div>
+        <div>
+            <label for="time_start">Начало:</label>
+            <input type="time" name="time_start" id="time_start" value="{{ time_start|time:'H:i' }}">
+        </div>
+        <div>
+            <label for="time_end">Конец:</label>
+            <input type="time" name="time_end" id="time_end" value="{{ time_end|time:'H:i' }}">
+        </div>
+        <div>
+            <label for="type">Тип места:</label>
+            <select name="type" id="type">
+                <option value="">Все</option>
+                <option value="desk" {% if place_type == 'desk' %}selected{% endif %}>Рабочее место</option>
+                <option value="meeting" {% if place_type == 'meeting' %}selected{% endif %}>Переговорная</option>
+            </select>
+        </div>
+        <button type="submit" class="btn-submit">Найти</button>
+        <a href="{% url 'coworkings:list' %}" style="text-decoration: none;">Сбросить</a>
+    </form>
+
+    {% if coworkings %}
+        <ul class="coworking-grid">
+            {% for coworking in coworkings %}
+                <li class="coworking-card">
+                    <h3><a href="{% url "coworkings:detail" coworking.id %}">{{ coworking.name }}</a></h3>
+                    <div class="address">{{ coworking.address }}</div>
+                    <span class="city-badge">{{ coworking.city.name }}</span>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p style="color: #7f8c8d;">Нет коворкингов, соответствующих фильтрам.</p>
+    {% endif %}
+{% endblock content %}
