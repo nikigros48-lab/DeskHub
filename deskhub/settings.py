@@ -1,16 +1,20 @@
-import os
-from dotenv import load_dotenv
 from pathlib import Path
-
-load_dotenv()
+import environ
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = os.getenv("SECRET_KEY")
+env = environ.Env(
+    DEBUG=(bool, False),
+    ALLOWED_HOSTS=(list, ["127.0.0.1", "localhost"])
+)
 
-DEBUG = os.getenv("DEBUG", "False") == "True"
+environ.Env.read_env(BASE_DIR / ".env")
 
-ALLOWED_HOSTS = [host.strip() for host in os.getenv("ALLOWED_HOSTS", "127.0.0.1,localhost").split(',')]
+SECRET_KEY = env("SECRET_KEY")
+
+DEBUG = env("DEBUG")
+
+ALLOWED_HOSTS = env("ALLOWED_HOSTS")
 
 # Application definition
 
